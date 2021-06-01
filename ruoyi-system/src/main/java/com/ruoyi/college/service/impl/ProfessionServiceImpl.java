@@ -44,6 +44,11 @@ public class ProfessionServiceImpl implements IProfessionService
         return professionMapper.selectProfessionList(profession);
     }
 
+    @Override
+    public List<Profession> selectRecommandedProfession() {
+        return professionMapper.selectRecommandedProfession();
+    }
+
     /**
      * 新增专业
      * 

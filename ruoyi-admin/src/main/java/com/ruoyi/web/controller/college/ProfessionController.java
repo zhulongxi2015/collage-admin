@@ -27,6 +27,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import static com.ruoyi.web.controller.constant.Constants.PROFESSION_LIST_KEY_NAME;
+import static com.ruoyi.web.controller.constant.Constants.PROFESSION_RECOMMAND_LIST_KEY_NAME;
 import static com.ruoyi.web.controller.constant.Constants.SCHOOL_PROFESSION_DETAIL_PREFIX_KEY;
 import static com.ruoyi.web.controller.constant.Constants.SCHOOL_PROFESSION_LIST_PREFIX_KEY;
 
@@ -54,6 +55,18 @@ public class ProfessionController extends BaseController {
         return prefix + "/profession";
     }
 
+    @PostMapping("/recommands")
+    @ResponseBody
+    public TableDataInfo getRecommandPros(){
+        Object obj = collageCache.get(PROFESSION_RECOMMAND_LIST_KEY_NAME);
+        if(obj != null){
+            return getDataTable((List<Profession>) obj);
+        }else{
+            List<Profession> professions = professionService.selectRecommandedProfession();
+            collageCache.put(PROFESSION_RECOMMAND_LIST_KEY_NAME, professions);
+            return getDataTable(professions);
+        }
+    }
     /**
      * 查询专业列表
      */
@@ -135,7 +148,6 @@ public class ProfessionController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(Profession profession) {
-
         return toAjax(professionService.updateProfession(profession));
     }
 

@@ -54,6 +54,11 @@
         where p.id = #{id} and p.del_flag = 0
     </select>
 
+    <select id="selectRecommandedProfession"  resultMap="ProfessionResult">
+        <include refid="selectProfessionVo"/>
+        where p.recommand = 1
+    </select>
+
     <insert id="insertProfession" parameterType="Profession" useGeneratedKeys="true" keyProperty="id">
         insert into profession
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -20,6 +20,13 @@ public interface IProfessionService
     public Profession selectProfessionById(Long id);
 
     /**
+     * 查询推荐专业列表
+     * @return
+     */
+
+    public List<Profession> selectRecommandedProfession();
+
+    /**
      * 查询专业列表
      * 
      * @param profession 专业

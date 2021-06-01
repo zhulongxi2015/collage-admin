@@ -18,4 +18,6 @@ public class Constants {
     public static final String SCHOOL_PROFESSION_LIST_PREFIX_KEY = "school_profession_list_key_";
     public static final String SCHOOL_PROFESSION_DETAIL_PREFIX_KEY = "school_profession_detail_key_";
 
+    public static final String PROFESSION_RECOMMAND_LIST_KEY_NAME = "profession_recommand_list_key";
+
 }

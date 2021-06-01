@@ -19,6 +19,8 @@ public interface ProfessionMapper
      */
     public Profession selectProfessionById(Long id);
 
+    public List<Profession> selectRecommandedProfession();
+
     /**
      * 查询专业列表
      * 
