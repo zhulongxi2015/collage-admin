@@ -28,6 +28,9 @@ public class School extends BaseEntity
     @Excel(name = "学校lego")
     private String lego;
 
+    @Excel(name="学校logo2")
+    private String logo2;
+
     /** 学校封面图 */
     @Excel(name = "学校封面图")
     private String coverImg;
@@ -84,6 +87,16 @@ public class School extends BaseEntity
     {
         return lego;
     }
+
+
+    public String getLogo2() {
+        return logo2;
+    }
+
+    public void setLogo2(String logo2) {
+        this.logo2 = logo2;
+    }
+
     public void setCoverImg(String coverImg) 
     {
         this.coverImg = coverImg;
@@ -136,6 +149,7 @@ public class School extends BaseEntity
             .append("id", getId())
             .append("name", getName())
             .append("lego", getLego())
+            .append("logo2", getLogo2())
             .append("coverImg", getCoverImg())
             .append("shortIntroduction", getShortIntroduction())
             .append("introduction", getIntroduction())

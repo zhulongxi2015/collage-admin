@@ -8,6 +8,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 
@@ -57,7 +58,7 @@ public class SchoolController extends BaseController {
     @ResponseBody
     public TableDataInfo list(School school) {
         Object schoolsObj = collageCache.get(SCHOOL_LIST_KEY_NAME);
-        if (schoolsObj != null) {
+        if (schoolsObj != null && ((List<School>) schoolsObj).size() > 0) {
             System.out.println("=======list from cache======");
             return (getDataTable((List<School>) schoolsObj));
         } else {
@@ -73,7 +74,7 @@ public class SchoolController extends BaseController {
     @ResponseBody
     public TableDataInfo list1(School school) {
         Object schoolsObj = collageCache.get(SCHOOL_LIST_WITH_PROFESSION_KEY_NAME);
-        if (schoolsObj != null) {
+        if (schoolsObj != null && ((List<School>) schoolsObj).size() > 0) {
             return (getDataTable((List<School>) schoolsObj));
         } else {
             startPage();
@@ -112,7 +113,14 @@ public class SchoolController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(School school) {
-        return toAjax(schoolService.insertSchool(school));
+        Object schoolsObj = collageCache.get(SCHOOL_LIST_KEY_NAME);
+        int i = schoolService.insertSchool(school);
+        if (schoolsObj != null && ((List<School>) schoolsObj).size() > 0) {
+            List<School> schoolList = (List<School>) schoolsObj;
+            schoolList.add(school);
+            collageCache.put(SCHOOL_LIST_KEY_NAME, schoolList);
+        }
+        return toAjax(i);
     }
 
     /**
@@ -152,7 +160,18 @@ public class SchoolController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(School school) {
-        return toAjax(schoolService.updateSchool(school));
+        int i = schoolService.updateSchool(school);
+        School updatedSchool = schoolService.selectSchoolById(school.getId());
+        collageCache.put(SCHOOL_DETAIL_PREFIX_KEY + school.getId(), updatedSchool);
+
+        Object schoolsObj = collageCache.get(SCHOOL_LIST_KEY_NAME);
+        if(schoolsObj != null){
+            List<School> schoolList = (List<School>)schoolsObj;
+            schoolList.removeIf(s->s.getId().equalsIgnoreCase(school.getId()));
+            schoolList.add(school);
+            collageCache.put(SCHOOL_LIST_KEY_NAME, schoolList);
+        }
+        return toAjax(i);
     }
 
     /**
@@ -163,6 +182,19 @@ public class SchoolController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
-        return toAjax(schoolService.deleteSchoolByIds(ids));
+        int i = schoolService.deleteSchoolByIds(ids);
+
+        Object schoolsObj = collageCache.get(SCHOOL_LIST_KEY_NAME);
+
+        for (String id : Convert.toStrArray(ids)) {
+            collageCache.remove(SCHOOL_DETAIL_PREFIX_KEY + id);
+
+            if(schoolsObj != null){
+                List<School> schoolList = (List<School>)schoolsObj;
+                schoolList.removeIf(s->s.getId().equalsIgnoreCase(id));
+                collageCache.put(SCHOOL_LIST_KEY_NAME, schoolList);
+            }
+        }
+        return toAjax(i);
     }
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ruoyi.college.domain.SchoolNews;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.StringUtils;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,6 +29,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 import static com.ruoyi.web.controller.constant.Constants.QUESTION_ANSWER_DETAIL_PREFIX_KEY_NAME;
 import static com.ruoyi.web.controller.constant.Constants.QUESTION_ANSWER_LIST_KEY_NAME;
+import static com.ruoyi.web.controller.constant.Constants.QUESTION_ANSWER_WEB_LIST_KEY_NAME;
 
 /**
  * 问答Controller
@@ -57,7 +60,7 @@ public class QuestionAnswerController extends BaseController {
     @ResponseBody
     public TableDataInfo list(QuestionAnswer questionAnswer) {
         Object aqsObj = collageCache.get(QUESTION_ANSWER_LIST_KEY_NAME);
-        if (aqsObj != null) {
+        if (aqsObj != null && ((List<QuestionAnswer>) aqsObj).size()>0) {
             return (getDataTable((List<QuestionAnswer>) aqsObj));
         } else {
             startPage();
@@ -90,15 +93,22 @@ public class QuestionAnswerController extends BaseController {
     @PostMapping("/web/list")
     @ResponseBody
     public TableDataInfo webList(QuestionAnswer questionAnswer) {
-        startPage();
-        List<QuestionAnswer> list = questionAnswerService.selectQuestionAnswerList(questionAnswer);
-        List<QuestionAnswer> questionAnswers = new ArrayList<>();
-        for (QuestionAnswer qa : list) {
-            QuestionAnswer questionAnswer1 = questionAnswerService.selectQuestionAnswerListByQuestionId(qa.getId());
-            questionAnswers.add(questionAnswer1);
+        Object aqsObj = collageCache.get(QUESTION_ANSWER_WEB_LIST_KEY_NAME);
+        if(aqsObj!=null && ((List<QuestionAnswer>)aqsObj).size()>0){
+            return getDataTable((List<QuestionAnswer>)aqsObj);
+        }else{
+            startPage();
+            List<QuestionAnswer> list = questionAnswerService.selectQuestionAnswerList(questionAnswer);
+            List<QuestionAnswer> questionAnswers = new ArrayList<>();
+            for (QuestionAnswer qa : list) {
+                QuestionAnswer questionAnswer1 = questionAnswerService.selectQuestionAnswerListByQuestionId(qa.getId());
+                questionAnswers.add(questionAnswer1);
+            }
+            questionAnswers = questionAnswers.stream().filter(qa -> qa.getStatus() == 0).collect(Collectors.toList());
+            collageCache.put(QUESTION_ANSWER_WEB_LIST_KEY_NAME, questionAnswers);
+            return getDataTable(questionAnswers);
         }
-        questionAnswers = questionAnswers.stream().filter(qa -> qa.getStatus() == 0).collect(Collectors.toList());
-        return getDataTable(questionAnswers);
+
     }
 
     /**
@@ -130,14 +140,18 @@ public class QuestionAnswerController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(QuestionAnswer questionAnswer) {
-        return toAjax(questionAnswerService.insertQuestionAnswer(questionAnswer));
+        int i = questionAnswerService.insertQuestionAnswer(questionAnswer);
+        addQAToListCache(questionAnswer, QUESTION_ANSWER_LIST_KEY_NAME);
+        return toAjax(i);
     }
 
     @Log(title = "问答", businessType = BusinessType.INSERT)
     @PostMapping("/web/add")
     @ResponseBody
     public AjaxResult addSave1(QuestionAnswer questionAnswer) {
-        return toAjax(questionAnswerService.insertSameQuestionAnswer(questionAnswer));
+        int i = questionAnswerService.insertSameQuestionAnswer(questionAnswer);
+        addQAToListCache(questionAnswer, QUESTION_ANSWER_WEB_LIST_KEY_NAME);
+        return toAjax(i);
     }
 
     /**
@@ -145,7 +159,6 @@ public class QuestionAnswerController extends BaseController {
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
-
         QuestionAnswer questionAnswer = questionAnswerService.selectQuestionAnswerListByQuestionId(id);
         mmap.put("questionAnswer", questionAnswer);
         return prefix + "/edit";
@@ -159,14 +172,24 @@ public class QuestionAnswerController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(QuestionAnswer questionAnswer) {
-        return toAjax(questionAnswerService.updateQuestionAnswer(questionAnswer));
+        int i = questionAnswerService.updateQuestionAnswer(questionAnswer);
+        QuestionAnswer updatedQA = questionAnswerService.selectQuestionAnswerById(questionAnswer.getId());
+        collageCache.put(QUESTION_ANSWER_DETAIL_PREFIX_KEY_NAME + questionAnswer.getId(), updatedQA);
+        updateQAListCache(updatedQA, QUESTION_ANSWER_LIST_KEY_NAME);
+        updateQAListCache(updatedQA, QUESTION_ANSWER_WEB_LIST_KEY_NAME);
+        return toAjax(i);
     }
 
     @Log(title = "问答", businessType = BusinessType.UPDATE)
     @PostMapping("/web/edit")
     @ResponseBody
     public AjaxResult editSave1(QuestionAnswer questionAnswer) {
-        return toAjax(questionAnswerService.updateSameQuestionAnswer(questionAnswer));
+        int i = questionAnswerService.updateSameQuestionAnswer(questionAnswer);
+        QuestionAnswer updatedQA = questionAnswerService.selectQuestionAnswerById(questionAnswer.getId());
+        collageCache.put(QUESTION_ANSWER_DETAIL_PREFIX_KEY_NAME + questionAnswer.getId(), updatedQA);
+        updateQAListCache(updatedQA, QUESTION_ANSWER_LIST_KEY_NAME);
+        updateQAListCache(updatedQA, QUESTION_ANSWER_WEB_LIST_KEY_NAME);
+        return toAjax(i);
     }
 
     /**
@@ -177,6 +200,41 @@ public class QuestionAnswerController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
-        return toAjax(questionAnswerService.deleteQuestionAnswerByIds(ids));
+        int i = questionAnswerService.deleteQuestionAnswerByIds(ids);
+        for (String id : Convert.toStrArray(ids)){
+            collageCache.remove(QUESTION_ANSWER_DETAIL_PREFIX_KEY_NAME + id);
+            removeQAFromListCache(id, QUESTION_ANSWER_LIST_KEY_NAME);
+            removeQAFromListCache(id, QUESTION_ANSWER_WEB_LIST_KEY_NAME);
+        }
+        return toAjax(i);
     }
+
+    private void addQAToListCache(QuestionAnswer questionAnswer, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<QuestionAnswer> questionAnswerList = (List<QuestionAnswer>)obj;
+            questionAnswerList.add(questionAnswer);
+            collageCache.put(key, questionAnswerList);
+        }
+    }
+
+    private void updateQAListCache(QuestionAnswer questionAnswer, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<QuestionAnswer> questionAnswerList = (List<QuestionAnswer>)obj;
+            questionAnswerList.removeIf(p->p.getId().equals(questionAnswer.getId()));
+            questionAnswerList.add(questionAnswer);
+            collageCache.put(key , questionAnswerList);
+        }
+    }
+
+    private void removeQAFromListCache(String qaId, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<QuestionAnswer> questionAnswerList = (List<QuestionAnswer>)obj;
+            questionAnswerList.removeIf(p->p.getId().toString().equals(qaId));
+            collageCache.put(key, questionAnswerList);;
+        }
+    }
+
 }

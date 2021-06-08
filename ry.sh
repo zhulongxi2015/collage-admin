@@ -3,9 +3,10 @@
 AppName=ruoyi-admin.jar
 
 #JVM参数
-JVM_OPTS="-Dname=$AppName  -Duser.timezone=Asia/Shanghai -Xms512M -Xmx512M -XX:PermSize=256M -XX:MaxPermSize=512M -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDateStamps  -XX:+PrintGCDetails -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+UseParallelGC -XX:+UseParallelOldGC"
 APP_HOME=`pwd`
-LOG_PATH=$APP_HOME/logs/$AppName.log
+SPRING_CONFIG=$APP_HOME/config/
+JVM_OPTS="-Dspring.config.location=$SPRING_CONFIG -Dname=$AppName  -Duser.timezone=Asia/Shanghai -Xms512M -Xmx512M -XX:PermSize=256M -XX:MaxPermSize=512M -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDateStamps  -XX:+PrintGCDetails -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+UseParallelGC -XX:+UseParallelOldGC"
+LOG_PATH=$APP_HOME/$AppName.log
 
 if [ "$1" = "" ];
 then
@@ -26,7 +27,7 @@ function start()
 	if [ x"$PID" != x"" ]; then
 	    echo "$AppName is running..."
 	else
-		nohup java -jar  $JVM_OPTS target/$AppName > /dev/null 2>&1 &
+		nohup java -jar  $JVM_OPTS $APP_HOME/$AppName > /dev/null 2>&1 &
 		echo "Start $AppName success..."
 	fi
 }

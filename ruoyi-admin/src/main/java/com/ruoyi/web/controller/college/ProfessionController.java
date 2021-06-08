@@ -1,12 +1,17 @@
 package com.ruoyi.web.controller.college;
 
-import java.util.List;
-
 import com.alibaba.fastjson.JSON;
-import com.ruoyi.college.domain.School;
+import com.ruoyi.college.domain.Profession;
+import com.ruoyi.college.service.IProfessionService;
 import com.ruoyi.college.service.ISchoolService;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.StringUtils;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,15 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.college.domain.Profession;
-import com.ruoyi.college.service.IProfessionService;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
+import java.util.List;
 
 import static com.ruoyi.web.controller.constant.Constants.PROFESSION_LIST_KEY_NAME;
 import static com.ruoyi.web.controller.constant.Constants.PROFESSION_RECOMMAND_LIST_KEY_NAME;
@@ -59,7 +56,7 @@ public class ProfessionController extends BaseController {
     @ResponseBody
     public TableDataInfo getRecommandPros(){
         Object obj = collageCache.get(PROFESSION_RECOMMAND_LIST_KEY_NAME);
-        if(obj != null){
+        if(obj != null && ((List<Profession>) obj).size()>0){
             return getDataTable((List<Profession>) obj);
         }else{
             List<Profession> professions = professionService.selectRecommandedProfession();
@@ -74,15 +71,18 @@ public class ProfessionController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(Profession profession) {
-        String key;
-        if (profession == null) {
+        String key ;
+        if (profession == null || StringUtils.isEmpty(profession.getSchoolId())) {
+            System.out.println("=====list cache===");
             key = PROFESSION_LIST_KEY_NAME;
         } else {
-            key = SCHOOL_PROFESSION_LIST_PREFIX_KEY + (!StringUtils.isEmpty(profession.getSchoolId()) ?
-                    profession.getSchool() : profession.getSchool().getId());
+            key = SCHOOL_PROFESSION_LIST_PREFIX_KEY + profession.getSchoolId();
+            System.out.println("=====school list cache===");
         }
         Object obj = collageCache.get(key);
-        if (obj != null) {
+        if (obj != null && ((List<Profession>) obj).size()>0) {
+            System.out.println("=====cache result ===");
+            System.out.println((List<Profession>) obj);
             return getDataTable((List<Profession>) obj);
         } else {
             startPage();
@@ -110,7 +110,14 @@ public class ProfessionController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(Profession profession) {
-        return toAjax(professionService.insertProfession(profession));
+        int i = professionService.insertProfession(profession);
+        addProfessionToListCache(profession, PROFESSION_LIST_KEY_NAME);
+        System.out.println("===addSave===");
+        System.out.println(profession);
+        if(profession.getSchoolId()!=null){
+           addProfessionToListCache(profession, SCHOOL_PROFESSION_LIST_PREFIX_KEY+profession.getSchoolId());
+        }
+        return toAjax(i);
     }
 
     /**
@@ -148,9 +155,13 @@ public class ProfessionController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(Profession profession) {
-        return toAjax(professionService.updateProfession(profession));
+        int i = professionService.updateProfession(profession);
+        Profession updatedProfession = professionService.selectProfessionById(profession.getId());
+        collageCache.put(SCHOOL_PROFESSION_DETAIL_PREFIX_KEY + profession.getSchoolId(), updatedProfession);
+        updateProfessionListCache(updatedProfession, PROFESSION_LIST_KEY_NAME);
+        updateProfessionListCache(updatedProfession, SCHOOL_PROFESSION_LIST_PREFIX_KEY + updatedProfession.getSchoolId());
+        return toAjax(i);
     }
-
     /**
      * 删除专业
      */
@@ -159,6 +170,48 @@ public class ProfessionController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
-        return toAjax(professionService.deleteProfessionByIds(ids));
+        int i=0;
+        for (String id : Convert.toStrArray(ids)){
+            Profession profession = professionService.selectProfessionById(Long.valueOf(id));
+            professionService.deleteProfessionByIds(id);
+            if(collageCache.get(SCHOOL_PROFESSION_DETAIL_PREFIX_KEY+id) !=null){
+                collageCache.remove(SCHOOL_PROFESSION_DETAIL_PREFIX_KEY+id);
+            }
+            removeProfessionFromListCache(id, PROFESSION_LIST_KEY_NAME);
+            removeProfessionFromListCache(id, SCHOOL_PROFESSION_LIST_PREFIX_KEY+profession.getSchoolId());
+            i++;
+        }
+        return toAjax(i);
+    }
+
+    private void addProfessionToListCache(Profession profession, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<Profession> professionList = (List<Profession>)obj;
+            professionList.add(profession);
+            collageCache.put(key, professionList);
+        }
+    }
+    private void updateProfessionListCache(Profession profession, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<Profession> professionList = (List<Profession>)obj;
+            professionList.removeIf(p->p.getId().equals(profession.getId()));
+            professionList.add(profession);
+            collageCache.put(key , professionList);
+        }
+    }
+    private void removeProfessionFromListCache(String professionId, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<Profession> professionList = (List<Profession>)obj;
+            System.out.println("profession_key");
+            System.out.println(professionList);
+            professionList.removeIf(p->p.getId().toString().equals(professionId));
+            collageCache.remove(key);
+            collageCache.put(key, professionList);;
+            System.out.println("=====cache==="+key);
+            System.out.println(professionList);
+        }
     }
 }

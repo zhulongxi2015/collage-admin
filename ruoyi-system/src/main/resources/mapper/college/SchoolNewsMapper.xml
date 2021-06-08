@@ -32,11 +32,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertSchoolNews" parameterType="SchoolNews" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         insert into school_news
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="newsContent != null">news_content,</if>
             <if test="delFlag != null">del_flag,</if>
-            create_date
+            create_date,
             <if test="contentTitle != null">content_title,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">

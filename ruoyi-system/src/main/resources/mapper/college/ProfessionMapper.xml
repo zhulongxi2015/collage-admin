@@ -60,6 +60,9 @@
     </select>
 
     <insert id="insertProfession" parameterType="Profession" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         insert into profession
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>

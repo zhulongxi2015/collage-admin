@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="lego"    column="lego"    />
+        <result property="logo2"    column="logo2"    />
         <result property="coverImg"    column="cover_img"    />
         <result property="shortIntroduction"    column="short_introduction"    />
         <result property="introduction"    column="introduction"    />
@@ -19,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="lego"    column="lego"    />
+        <result property="logo2"    column="logo2"    />
         <result property="coverImg"    column="cover_img"    />
         <result property="shortIntroduction"    column="short_introduction"    />
         <result property="introduction"    column="introduction"    />
@@ -39,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <select id="selectSchoolListWithProfession" parameterType="School" resultMap="SchoolwithProfessionResult">
-        select s.id, s.name, s.lego, s.cover_img, s.short_introduction, s.introduction, s.ranking, s.del_flag,
+        select s.id, s.name, s.lego, s.logo2, s.cover_img, s.short_introduction, s.introduction, s.ranking, s.del_flag,
         p.id professionId,p.name professionName,p.process_describe,p.process_img,p.type,p. del_flag profession_del_flag
         ,p.ranking professionRanking
         from school s
@@ -48,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="name != null  and name != ''"> and s.name like concat('%', #{name}, '%')</if>
             <if test="lego != null  and lego != ''"> and s.lego = #{lego}</if>
+            <if test="logo2 != null  and logo2 != ''"> and s.logo2 = #{logo2}</if>
             <if test="coverImg != null  and coverImg != ''"> and s.cover_img = #{coverImg}</if>
             <if test="shortIntroduction != null  and shortIntroduction != ''"> and s.short_introduction = #{shortIntroduction}</if>
             <if test="introduction != null  and introduction != ''"> and s.introduction = #{introduction}</if>
@@ -57,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <sql id="selectSchoolVo">
-        select id, name, lego, cover_img, short_introduction, introduction, ranking, del_flag from school
+        select id, name, lego, logo2, cover_img, short_introduction, introduction, ranking, del_flag from school
     </sql>
 
     <select id="selectSchoolList" parameterType="School" resultMap="SchoolResult">
@@ -65,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="lego != null  and lego != ''"> and lego = #{lego}</if>
+            <if test="logo2 != null  and logo2 != ''"> and s.logo2 = #{logo2}</if>
             <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
             <if test="shortIntroduction != null  and shortIntroduction != ''"> and short_introduction like concat('%', #{shortIntroduction}, '%')</if>
             <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
@@ -75,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectSchoolById" parameterType="String" resultMap="SchoolwithProfessionResult">
-        select s.id, s.name, s.lego, s.cover_img, s.short_introduction, s.introduction, s.ranking, s.del_flag,
+        select s.id, s.name, s.lego, s.logo2, s.cover_img, s.short_introduction, s.introduction, s.ranking, s.del_flag,
         p.id professionId,p.name professionName,p.process_describe,p.process_img,p.type,p. del_flag profession_del_flag
         ,p.ranking professionRanking
         from school s
@@ -85,11 +89,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertSchool" parameterType="School">
+        <selectKey resultType="java.lang.String" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         insert into school
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="name != null">name,</if>
             <if test="lego != null">lego,</if>
+            <if test="logo2 != null">logo2,</if>
             <if test="coverImg != null">cover_img,</if>
             <if test="shortIntroduction != null">short_introduction,</if>
             <if test="introduction != null">introduction,</if>
@@ -100,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null">#{id},</if>
             <if test="name != null">#{name},</if>
             <if test="lego != null">#{lego},</if>
+            <if test="logo2 != null">#{logo2},</if>
             <if test="coverImg != null">#{coverImg},</if>
             <if test="shortIntroduction != null">#{shortIntroduction},</if>
             <if test="introduction != null">#{introduction},</if>
@@ -113,6 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="lego != null">lego = #{lego},</if>
+            <if test="logo2 != null">logo2 = #{logo2},</if>
             <if test="coverImg != null">cover_img = #{coverImg},</if>
             <if test="shortIntroduction != null">short_introduction = #{shortIntroduction},</if>
             <if test="introduction != null">introduction = #{introduction},</if>

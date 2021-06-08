@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.college;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.college.domain.Profession;
 import com.ruoyi.college.domain.School;
 import com.ruoyi.college.domain.SchoolNews;
 import com.ruoyi.college.service.ISchoolNewsService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.BusinessType;
 
 import com.ruoyi.common.core.controller.BaseController;
@@ -56,15 +58,9 @@ public class SchoolNewsController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(SchoolNews schoolNews) {
-        String key;
-        if (schoolNews == null) {
-            key = SCHOOL_NEWS_KEY_NAME;
-
-        } else {
-            key = SCHOOL_NEWS_LIST_PREFIX_KEY + schoolNews.getId();
-        }
+        String key = SCHOOL_NEWS_KEY_NAME;
         Object obj = collageCache.get(key);
-        if (obj != null) {
+        if (obj != null && ((List<SchoolNews>) obj).size()>0) {
             return getDataTable((List<SchoolNews>) obj);
         } else {
             startPage();
@@ -120,8 +116,12 @@ public class SchoolNewsController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(SchoolNews schoolNews) {
-        return toAjax(schoolNewsService.insertSchoolNews(schoolNews));
+        int i = schoolNewsService.insertSchoolNews(schoolNews);
+        addSchoolNewsToListCache(schoolNews, SCHOOL_NEWS_KEY_NAME);
+        //addSchoolNewsToListCache(schoolNews, SCHOOL_NEWS_LIST_PREFIX_KEY+schoolNews.getId());
+        return toAjax(i);
     }
+
 
     /**
      * 修改学校新闻表
@@ -141,7 +141,12 @@ public class SchoolNewsController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(SchoolNews schoolNews) {
-        return toAjax(schoolNewsService.updateSchoolNews(schoolNews));
+        int i = schoolNewsService.updateSchoolNews(schoolNews);
+        SchoolNews updatedSchoolNews = schoolNewsService.selectSchoolNewsById(schoolNews.getId());
+        collageCache.put(SCHOOL_NEWS_DETAIL_PREFIX_KEY + schoolNews.getId(), updatedSchoolNews);
+        updateSchoolNewsListCache(updatedSchoolNews, SCHOOL_NEWS_KEY_NAME);
+        //updateSchoolNewsListCache(updatedSchoolNews, SCHOOL_NEWS_LIST_PREFIX_KEY + schoolNews.getId());
+        return toAjax(i);
     }
 
     /**
@@ -152,6 +157,40 @@ public class SchoolNewsController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
+        for (String id: Convert.toStrArray(ids)){
+            collageCache.remove(SCHOOL_NEWS_DETAIL_PREFIX_KEY+ id);
+            removeSchoolNewsFromListCache(id, SCHOOL_NEWS_KEY_NAME);
+            removeSchoolNewsFromListCache(id, SCHOOL_NEWS_LIST_PREFIX_KEY + id);
+        }
+
         return toAjax(schoolNewsService.deleteSchoolNewsByIds(ids));
+    }
+
+    private void addSchoolNewsToListCache(SchoolNews schoolNews, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<SchoolNews> schoolNewsList = (List<SchoolNews>)obj;
+            schoolNewsList.add(schoolNews);
+            collageCache.put(key, schoolNewsList);
+        }
+    }
+
+    private void updateSchoolNewsListCache(SchoolNews schoolNews, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<SchoolNews> schoolNewsList = (List<SchoolNews>)obj;
+            schoolNewsList.removeIf(p->p.getId().equals(schoolNews.getId()));
+            schoolNewsList.add(schoolNews);
+            collageCache.put(key , schoolNewsList);
+        }
+    }
+
+    private void removeSchoolNewsFromListCache(String schoolNewsId, String key){
+        Object obj = collageCache.get(key);
+        if(obj!=null){
+            List<SchoolNews> schoolNewsList = (List<SchoolNews>)obj;
+            schoolNewsList.removeIf(p->p.getId().toString().equals(schoolNewsId));
+            collageCache.put(key, schoolNewsList);;
+        }
     }
 }

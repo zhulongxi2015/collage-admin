@@ -28,6 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertFocus" parameterType="Focus" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         insert into focus
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="img != null">img,</if>

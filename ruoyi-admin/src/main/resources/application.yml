@@ -9,14 +9,14 @@ ruoyi:
   # 实例演示开关
   demoEnabled: false
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:/ruoyi/uploadPath
+  profile: /usr/local/collage-admin/uploads
   # 获取ip地址开关
   addressEnabled: false
 
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 80
+  port: 8080
   servlet:
     # 应用的访问路径
     context-path: /
@@ -55,6 +55,20 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  # redis 配置
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: 5000   # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+    password: ""
+    timeout: 6000ms
+
   profiles: 
     active: druid
   # 文件上传
@@ -112,7 +126,7 @@ shiro:
     cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==
   session:
     # Session超时时间，-1代表永不过期（默认30分钟）
-    expireTime: -1
+    expireTime: 30
     # 同步session到数据库的周期（默认1分钟）
     dbSyncPeriod: 1
     # 相隔多久检查一次session的有效性，默认就是10分钟

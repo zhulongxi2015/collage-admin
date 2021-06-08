@@ -7,6 +7,7 @@ public class Constants {
     public static final String SCHOOL_DETAIL_PREFIX_KEY = "school_detail_key_";
 
     public static final String QUESTION_ANSWER_LIST_KEY_NAME = "question_answer_list_key";
+    public static final String QUESTION_ANSWER_WEB_LIST_KEY_NAME = "question_answer_web_list_key";
     public static final String QUESTION_ANSWER_DETAIL_PREFIX_KEY_NAME = "question_answer_detail_prefix_key_";
 
     public static final String SCHOOL_NEWS_KEY_NAME = "school_news_key";

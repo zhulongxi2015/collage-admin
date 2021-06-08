@@ -98,7 +98,7 @@ public class FocusController extends BaseController
 
         int i = focusService.insertFocus(focus);
         Object focusObj = collageCache.get(FOCUS_LIST_KEY_NAME);
-        if (focusObj != null) {
+        if (focusObj != null && ((List<Focus>) focusObj).size()>0) {
             List<Focus> focusList =  (List<Focus>) focusObj;
             focusList.add(focus);
             collageCache.remove(FOCUS_LIST_KEY_NAME);

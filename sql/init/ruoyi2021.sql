@@ -217,18 +217,20 @@ CREATE TABLE `profession`  (
   `year` int(11) NULL DEFAULT NULL COMMENT '就读年限',
   `ranking` int(11) NULL DEFAULT NULL COMMENT '专业排名',
   `school_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校id',
+  `recommand` int(1) NULL DEFAULT 0 COMMENT '推荐标志',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of profession
 -- ----------------------------
-INSERT INTO `profession` VALUES (1, '计算机科学与技术', '', 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。', 'http://localhost/profile/upload/2021/01/19/efa5e737-c438-4a3b-8791-e2b2771f94d3.jpg', 5, 3, '1');
-INSERT INTO `profession` VALUES (2, '软件工程', NULL, 0, '<p><b>aa</b></p>', 'http://localhost/profile/upload/2021/01/18/5778d53f-c334-4743-812e-fe426f24fc7b.jpg', 4, 1, '3');
-INSERT INTO `profession` VALUES (3, '网络与通信', NULL, 0, '<p><b><u>啊啊啊</u></b></p>', 'http://localhost/profile/upload/2021/01/19/9ac9c0f8-9f62-4fc7-afe1-1dcfbb791ec4.jpg', 4, 2, '1');
-INSERT INTO `profession` VALUES (8, '工业机器人', NULL, 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。', 'http://localhost/profile/upload/2021/01/19/9ac9c0f8-9f62-4fc7-afe1-1dcfbb791ec4.jpg', 3, 1, '2');
-INSERT INTO `profession` VALUES (9, '信息系统', NULL, 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。钱钱钱', 'http://localhost/profile/upload/2021/01/19/efa5e737-c438-4a3b-8791-e2b2771f94d3.jpg', 5, 3, '1');
-INSERT INTO `profession` VALUES (10, '物联网', NULL, 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。钱钱钱，物联网', 'http://localhost/profile/upload/2021/01/19/9ac9c0f8-9f62-4fc7-afe1-1dcfbb791ec4.jpg', 6, 4, '1');
+INSERT INTO `profession` VALUES (1, '计算机科学与技术', '', 0,
+                                 '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。', 'http://localhost/profile/upload/2021/01/19/efa5e737-c438-4a3b-8791-e2b2771f94d3.jpg', 5, 3, '1', 0);
+INSERT INTO `profession` VALUES (2, '软件工程', NULL, 0, '<p><b>aa</b></p>', 'http://localhost/profile/upload/2021/01/18/5778d53f-c334-4743-812e-fe426f24fc7b.jpg', 4, 1, '3', 0);
+INSERT INTO `profession` VALUES (3, '网络与通信', NULL, 0, '<p><b><u>啊啊啊</u></b></p>', 'http://localhost/profile/upload/2021/01/19/9ac9c0f8-9f62-4fc7-afe1-1dcfbb791ec4.jpg', 4, 2, '1', 0);
+INSERT INTO `profession` VALUES (8, '工业机器人', NULL, 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。', 'http://localhost/profile/upload/2021/01/19/9ac9c0f8-9f62-4fc7-afe1-1dcfbb791ec4.jpg', 3, 1, '2', 0);
+INSERT INTO `profession` VALUES (9, '信息系统', NULL, 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。钱钱钱', 'http://localhost/profile/upload/2021/01/19/efa5e737-c438-4a3b-8791-e2b2771f94d3.jpg', 5, 3, '1', 0);
+INSERT INTO `profession` VALUES (10, '物联网', NULL, 0, '专业介绍面向机器人制造厂商、工业机器人系统集成商和应用企业，培养德、智、体、美全面发展，掌握工业机器人应用与维护知识与技能，具备工业机器人操作、安装、调试、编程、维护能力。工业机器人专业，主要从事自动化成套装备中工业机器人工作站的现场编程、调试维护、人机界面编程、系统集成、生产技术管理，以及工业机器人销售和售后服务工作，有一定的自我学习、自我发展能力、创新能力和良好的职业素养的高技能应用型人才。&nbsp;专业前景二十一世纪是人工智能的新启元，智能制造成为传统制造业转型升级、高端装备制造业走出去及降低企业运营成本的必由之路，工业机器人及智能装备制造产业将享用前所未有的发展机遇。随着中国制造2025国家战略的提出，新一轮技术革命与产业变革深入，工业经济转型升级步伐加快工厂自动化和智能化的趋势，使得我国机器人整体市场需求快速增长，对工业机器人应用人才的大量需求已经到来。&nbsp;&nbsp;主修课程机械制造基础、电工电子、机械制图、液压与气动、电气控制与PLC、单片机与C语言、工业机器人编程、工业机器人系统集成、工业机器人虑拟系统仿真等。&nbsp;就业岗位机器人维修技术人员、机器人工作站设计与安装、机器人销售工程师等。钱钱钱，物联网', 'http://localhost/profile/upload/2021/01/19/9ac9c0f8-9f62-4fc7-afe1-1dcfbb791ec4.jpg', 6, 4, '1', 0);
 
 -- ----------------------------
 -- Table structure for question_answer
@@ -286,6 +288,7 @@ CREATE TABLE `school`  (
   `id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校名称',
   `lego` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校lego',
+  `logo2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校logo2',
   `cover_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校封面图',
   `short_introduction` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校简介',
   `introduction` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学校详细介绍',
@@ -297,12 +300,32 @@ CREATE TABLE `school`  (
 -- ----------------------------
 -- Records of school
 -- ----------------------------
-INSERT INTO `school` VALUES ('1', '清华大学', 'http://localhost/profile/upload/2021/01/19/efa5e737-c438-4a3b-8791-e2b2771f94d3.jpg', 'http://localhost/profile/upload/2021/01/19/df67f4c3-b245-44c0-ac92-5ca660a7e7fc.jpg', '清华大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', '<dl class=\"lemmaWgt-lemmaTitle lemmaWgt-lemmaTitle-\" style=\"margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding: 0px; width: 700px;\"><dd class=\"lemmaWgt-lemmaTitle-keyInfo lemmaWgt-lemmaTitle-keyInfo-with-link\" style=\"margin-top: 5px; margin-right: 0px; margin-bottom: 0px; padding: 0px; border-left: 0px; line-height: 1; background-image: initial; background-position: 0px 0px; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; display: inline-block; vertical-align: middle;\"><ul style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; list-style: none; font-size: 14px;\"><font color=\"#474849\" face=\"arial, tahoma, Microsoft Yahei, 宋体, sans-serif\" style=\"\"><ul style=\"background-color: rgb(239, 247, 255); margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\"><b>985工程211工程研究生院</b></ul><ul style=\"margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\"><b style=\"background-color: rgb(239, 247, 255);\">清华大学（Tsinghua University</b><span style=\"background-color: rgb(239, 247, 255);\">），简称“</span><span style=\"background-color: rgb(255, 0, 0);\">清华</span><span style=\"background-color: rgb(239, 247, 255);\">”，是中华人民共和国教育部直属的全国重点大学， [1]&nbsp; 位列国家“双一流”A类、“985工程”、“211工程”，入选“2011计划”、“珠峰计划”、“强基计划”、“111计划”，为九校联盟（C9）、松联盟、中国大学校长联谊会、亚洲大学联盟、环太平洋大学联盟、清华—剑桥—MIT低碳大学联盟成员、中国高层次人才培养和科学技术研究的基地，被誉为“红色工程师的摇篮”。 [1-3]&nbsp;</span></ul><ul style=\"background-color: rgb(239, 247, 255); margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\">学校前身清华学堂始建于1911年，校名“清华”源于校址“清华园”地名，是清政府设立的留美预备学校，其建校的资金源于1908年美国退还的部分庚子赔款。1912年更名为清华学校。1928年更名为国立清华大学。1937年抗日战争全面爆发后南迁长沙，与国立北京大学、私立南开大学组建国立长沙临时大学，1938年迁至昆明改名为国立西南联合大学。1946年迁回清华园。1949年中华人民共和国成立，清华大学进入新的发展阶段。1952年全国高等学校院系调整后成为多科性工业大学。1978年以来逐步恢复和发展为综合性的研究型大学。 [4]&nbsp;</ul><ul style=\"background-color: rgb(239, 247, 255); margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\">截至2020年8月，清华大学校园面积442.12公顷，建筑面积281.70万平方米；设有21个学院、59教学系，开设有82个本科专业；有博士后科研流动站50个，一级学科国家重点学科22个，一级学科博士、硕士学位授权点60个；有教职工15190人，在校生53302人。</ul></font></ul></dd></dl>', 1, 0);
-INSERT INTO `school` VALUES ('2', '北京大学', 'http://localhost/profile/upload/2021/01/19/2b810603-a006-443d-83da-1885e86f4169.jpg', 'http://localhost/profile/upload/2021/01/19/704f0172-ff26-4e2d-90d4-536f8d0d2333.jpg', '北京大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', '<b>啊啊啊</b>', 2, 0);
-INSERT INTO `school` VALUES ('3', '南昌大学', 'http://localhost/profile/upload/2021/01/19/506840c7-8a38-4075-a329-446e68499d71.jpg', 'http://localhost/profile/upload/2021/01/19/1ccefd55-7727-4afa-9d91-d4b5f8c0b824.jpg', '南昌大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', 'ddd', 8, 0);
-INSERT INTO `school` VALUES ('9ca2ed218f31470c', '上海交通大学', 'http://localhost/profile/upload/2021/03/16/475166eb-58f4-418b-881d-40a1d1690309.jpg', 'http://localhost/profile/upload/2021/03/16/de94561c-b061-4982-9fe7-2255d616de62.jpg', '交通大学的简介', '<p>啊发发</p>', 1, 0);
-INSERT INTO `school` VALUES ('bd64776892ea4f15', '南京大学', 'http://localhost/profile/upload/2021/02/07/4e545dfe-4a3e-468f-887e-b61320ff5ee4.jpg', 'http://localhost/profile/upload/2021/02/07/eb69ff85-79a2-40e5-815d-f3e06bfbab11.jpg', '南京大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', '<p><b><u>啊啊啊</u></b></p>', 5, 0);
-INSERT INTO `school` VALUES ('f389f7f7c7b54153', '财经大学', 'http://localhost/profile/upload/2021/03/16/f5004175-6435-4add-81d9-4bbc14c519f3.jpg', 'http://localhost/profile/upload/2021/03/16/6c6de84a-572a-4dbb-9660-00d135eeaea1.jpg', '财经大学的简介', '<p>啊啊啊啊</p>', 1, 0);
+INSERT INTO `school` VALUES ('1', '清华大学', 'http://localhost/profile/upload/2021/01/19/efa5e737-c438-4a3b-8791-e2b2771f94d3.jpg',  null,
+                             'http://localhost/profile/upload/2021/01/19/df67f4c3-b245-44c0-ac92-5ca660a7e7fc.jpg',
+                             '清华大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', '<dl class=\"lemmaWgt-lemmaTitle lemmaWgt-lemmaTitle-\" style=\"margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding: 0px; width: 700px;\"><dd class=\"lemmaWgt-lemmaTitle-keyInfo lemmaWgt-lemmaTitle-keyInfo-with-link\" style=\"margin-top: 5px; margin-right: 0px; margin-bottom: 0px; padding: 0px; border-left: 0px; line-height: 1; background-image: initial; background-position: 0px 0px; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; display: inline-block; vertical-align: middle;\"><ul style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; list-style: none; font-size: 14px;\"><font color=\"#474849\" face=\"arial, tahoma, Microsoft Yahei, 宋体, sans-serif\" style=\"\"><ul style=\"background-color: rgb(239, 247, 255); margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\"><b>985工程211工程研究生院</b></ul><ul style=\"margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\"><b style=\"background-color: rgb(239, 247, 255);\">清华大学（Tsinghua University</b><span style=\"background-color: rgb(239, 247, 255);\">），简称“</span><span style=\"background-color: rgb(255, 0, 0);\">清华</span><span style=\"background-color: rgb(239, 247, 255);\">”，是中华人民共和国教育部直属的全国重点大学， [1]&nbsp; 位列国家“双一流”A类、“985工程”、“211工程”，入选“2011计划”、“珠峰计划”、“强基计划”、“111计划”，为九校联盟（C9）、松联盟、中国大学校长联谊会、亚洲大学联盟、环太平洋大学联盟、清华—剑桥—MIT低碳大学联盟成员、中国高层次人才培养和科学技术研究的基地，被誉为“红色工程师的摇篮”。 [1-3]&nbsp;</span></ul><ul style=\"background-color: rgb(239, 247, 255); margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\">学校前身清华学堂始建于1911年，校名“清华”源于校址“清华园”地名，是清政府设立的留美预备学校，其建校的资金源于1908年美国退还的部分庚子赔款。1912年更名为清华学校。1928年更名为国立清华大学。1937年抗日战争全面爆发后南迁长沙，与国立北京大学、私立南开大学组建国立长沙临时大学，1938年迁至昆明改名为国立西南联合大学。1946年迁回清华园。1949年中华人民共和国成立，清华大学进入新的发展阶段。1952年全国高等学校院系调整后成为多科性工业大学。1978年以来逐步恢复和发展为综合性的研究型大学。 [4]&nbsp;</ul><ul style=\"background-color: rgb(239, 247, 255); margin-right: 0px; margin-left: 0px; padding: 0px; list-style: none;\">截至2020年8月，清华大学校园面积442.12公顷，建筑面积281.70万平方米；设有21个学院、59教学系，开设有82个本科专业；有博士后科研流动站50个，一级学科国家重点学科22个，一级学科博士、硕士学位授权点60个；有教职工15190人，在校生53302人。</ul></font></ul></dd></dl>', 1, 0);
+INSERT INTO `school` VALUES ('2', '北京大学', 'http://localhost/profile/upload/2021/01/19/2b810603-a006-443d-83da' ||
+                                          '-1885e86f4169.jpg',  null,
+                             'http://localhost/profile/upload/2021/01/19/704f0172-ff26-4e2d-90d4-536f8d0d2333.jpg',
+
+                             '北京大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', '<b>啊啊啊</b>', 2, 0);
+    INSERT INTO `school` VALUES ('3', '南昌大学', 'http://localhost/profile/upload/2021/01/19/506840c7-8a38-4075-a329' ||
+                                              '-446e68499d71.jpg',   null,
+                                 'http://localhost/profile/upload/2021/01/19/1ccefd55-7727-4afa-9d91-d4b5f8c0b824.jpg',
+
+                                 '南昌大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', 'ddd', 8, 0);
+INSERT INTO `school` VALUES ('9ca2ed218f31470c', '上海交通大学',
+                             'http://localhost/profile/upload/2021/03/16/475166eb-58f4-418b-881d-40a1d1690309.jpg',null,
+                             'http://localhost/profile/upload/2021/03/16/de94561c-b061-4982-9fe7-2255d616de62.jpg',
+                             '交通大学的简介', '<p>啊发发</p>', 1, 0);
+INSERT INTO `school` VALUES ('bd64776892ea4f15', '南京大学',
+                             'http://localhost/profile/upload/2021/02/07/4e545dfe-4a3e-468f-887e-b61320ff5ee4.jpg', null,
+                             'http://localhost/profile/upload/2021/02/07/eb69ff85-79a2-40e5-815d-f3e06bfbab11.jpg',
+
+                             '南京大学赣州旅游职业学校是经省教育厅备案，市教育局直属的一所全日制综合性中专学校，学校坐落在赣州黄金高校区，南与赣州师范高等专科学校一墙之隔，西与赣南师范大学相邻;学习氛围浓厚，交通便利，环境优美，是广大莘莘学子求知的理想殿堂。', '<p><b><u>啊啊啊</u></b></p>', 5, 0);
+INSERT INTO `school` VALUES ('f389f7f7c7b54153', '财经大学',
+                             'http://localhost/profile/upload/2021/03/16/f5004175-6435-4add-81d9-4bbc14c519f3.jpg',null,
+                             'http://localhost/profile/upload/2021/03/16/6c6de84a-572a-4dbb-9660-00d135eeaea1.jpg',
+                              '财经大学的简介', '<p>啊啊啊啊</p>', 1, 0);
 
 -- ----------------------------
 -- Table structure for school_news
@@ -311,7 +334,7 @@ DROP TABLE IF EXISTS `school_news`;
 CREATE TABLE `school_news`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `content_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文章标题',
-  `news_content` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文章内容',
+  `news_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文章内容',
   `del_flag` int(1) NULL DEFAULT 0 COMMENT '删除标志',
   `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -334,7 +357,8 @@ CREATE TABLE `school_profession`  (
   `profession_id` int(20) NULL DEFAULT NULL COMMENT '专业id',
   `year` int(4) NULL DEFAULT NULL COMMENT '年份',
   `cover_img` blob NULL COMMENT '封面图',
-  `introduction` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '介绍',
+  `introduction` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '介绍',
+  `recommand` int(1) NULL DEFAULT 0 COMMENT '推荐标志',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
