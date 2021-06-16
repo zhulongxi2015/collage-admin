@@ -41,8 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <select id="selectSchoolListWithProfession" parameterType="School" resultMap="SchoolwithProfessionResult">
-        select s.id, s.name, s.lego, s.logo2, s.cover_img, s.short_introduction, s.introduction, s.ranking, s.del_flag,
-        p.id professionId,p.name professionName,p.process_describe,p.process_img,p.type,p. del_flag profession_del_flag
+        select s.id, s.name, s.lego, s.logo2, s.ranking, s.del_flag,
+        p.id professionId,p.name professionName,p.type,p. del_flag profession_del_flag
         ,p.ranking professionRanking
         from school s
         left join profession p
@@ -55,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="shortIntroduction != null  and shortIntroduction != ''"> and s.short_introduction = #{shortIntroduction}</if>
             <if test="introduction != null  and introduction != ''"> and s.introduction = #{introduction}</if>
             <if test="ranking != null"> and s.ranking = #{ranking}</if>
+            and s.del_flag=0
         </where>
         order by s.ranking,p.ranking
     </select>
@@ -68,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="lego != null  and lego != ''"> and lego = #{lego}</if>
-            <if test="logo2 != null  and logo2 != ''"> and s.logo2 = #{logo2}</if>
+            <if test="logo2 != null  and logo2 != ''"> and logo2 = #{logo2}</if>
             <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
             <if test="shortIntroduction != null  and shortIntroduction != ''"> and short_introduction like concat('%', #{shortIntroduction}, '%')</if>
             <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
@@ -85,9 +86,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from school s
         left join profession p
         on s.id = p.school_id
-        where s.id = #{id}
+        where s.id = #{id} and s.del_flag=0
     </select>
-        
+
+    <select id="selectSimpleSchoolList"  resultMap="SchoolResult">
+        select s.id, s.name, s.lego, s.logo2, s.cover_img from school s where s.del_flag = 0
+    </select>
+
     <insert id="insertSchool" parameterType="School">
         <selectKey resultType="java.lang.String" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id

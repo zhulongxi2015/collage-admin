@@ -14,6 +14,7 @@
         <result property="ranking"    column="ranking"    />
         <result property="year"    column="year"    />
         <result property="schoolId" column="school_id"/>
+        <result property="recommand" column="recommand"/>
         <association property="school" column="school_id" javaType="Profession" resultMap="SchoolResult"/>
     </resultMap>
 
@@ -30,7 +31,7 @@
     </resultMap>
 
     <sql id="selectProfessionVo">
-    select p.id,p.name,p.type,p.del_flag,p.process_describe,p.process_img,p.ranking,p.year,p.school_id,
+    select p.id,p.name,p.type,p.del_flag,p.process_describe,p.process_img,p.ranking,p.year,p.school_id,p.recommand,
         s.id schoolId,s.name schoolName,s.lego,s.cover_img,s.short_introduction,s.introduction,s.ranking,s.del_flag
         from profession p
         left join school s
@@ -45,6 +46,7 @@
         <if test="processImg != null  and processImg != ''">and p.process_img = #{processImg}</if>
         <if test="ranking != null">and p.ranking = #{ranking}</if>
         <if test="year != null">and p.year = #{year}</if>
+        <if test="recommand != null">and p.recommand = #{recommand}</if>
         <if test="schoolId != null  and schoolId != ''">and s.id = #{schoolId}</if>
         order by p.ranking
     </select>
@@ -55,8 +57,7 @@
     </select>
 
     <select id="selectRecommandedProfession"  resultMap="ProfessionResult">
-        <include refid="selectProfessionVo"/>
-        where p.recommand = 1
+        select p.id, p.name, p.school_id from profession p where p.recommand = 1 and p.del_flag=0
     </select>
 
     <insert id="insertProfession" parameterType="Profession" useGeneratedKeys="true" keyProperty="id">
@@ -70,6 +71,7 @@
             <if test="processDescribe != null">process_describe,</if>
             <if test="processImg != null and processImg != ''">process_img,</if>
             <if test="ranking != null">ranking,</if>
+            <if test="recommand != null">recommand,</if>
             <if test="year != null">year,</if>
             <if test="schoolId != null">school_id,</if>
         </trim>
@@ -79,6 +81,7 @@
             <if test="processDescribe != null">#{processDescribe},</if>
             <if test="processImg != null and processImg != ''">#{processImg},</if>
             <if test="ranking != null">#{ranking},</if>
+            <if test="recommand != null">#{recommand},</if>
             <if test="year != null">#{year},</if>
             <if test="schoolId != null">#{schoolId},</if>
         </trim>
@@ -93,6 +96,7 @@
             <if test="processDescribe != null">process_describe = #{processDescribe},</if>
             <if test="processImg != null and processImg != ''">process_img = #{processImg},</if>
             <if test="ranking != null">ranking = #{ranking},</if>
+            recommand=#{recommand},
             <if test="year != null">year= #{year},</if>
             <if test="schoolId != null">school_id = #{schoolId},</if>
         </trim>

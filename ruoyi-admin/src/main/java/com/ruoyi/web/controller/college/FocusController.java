@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.college;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -97,15 +98,17 @@ public class FocusController extends BaseController
     {
 
         int i = focusService.insertFocus(focus);
-        Object focusObj = collageCache.get(FOCUS_LIST_KEY_NAME);
-        if (focusObj != null && ((List<Focus>) focusObj).size()>0) {
-            List<Focus> focusList =  (List<Focus>) focusObj;
-            focusList.add(focus);
-            collageCache.remove(FOCUS_LIST_KEY_NAME);
-            collageCache.put(FOCUS_LIST_KEY_NAME,focusList);
-        }else{
-            collageCache.put(FOCUS_LIST_KEY_NAME, Arrays.asList(focus));
-        }
+        List<Focus> list = focusService.selectFocusList(new Focus());
+        collageCache.put(FOCUS_LIST_KEY_NAME, list);
+//        Object focusObj = collageCache.get(FOCUS_LIST_KEY_NAME);
+//        if (focusObj != null && ((List<Focus>) focusObj).size()>0) {
+//            List<Focus> focusList =  (List<Focus>) focusObj;
+//            focusList.add(focus);
+//            collageCache.remove(FOCUS_LIST_KEY_NAME);
+//            collageCache.put(FOCUS_LIST_KEY_NAME,focusList);
+//        }else{
+//            collageCache.put(FOCUS_LIST_KEY_NAME, Arrays.asList(focus));
+//        }
         return toAjax(i);
     }
 
@@ -129,7 +132,10 @@ public class FocusController extends BaseController
     @ResponseBody
     public AjaxResult editSave(Focus focus)
     {
-        return toAjax(focusService.updateFocus(focus));
+        int i = focusService.updateFocus(focus);
+        List<Focus> list = focusService.selectFocusList(new Focus());
+        collageCache.put(FOCUS_LIST_KEY_NAME, list);
+        return toAjax(i);
     }
 
     /**
@@ -141,6 +147,11 @@ public class FocusController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        return toAjax(focusService.deleteFocusByIds(ids));
+        int i = focusService.deleteFocusByIds(ids);
+        List<Focus> list = focusService.selectFocusList(new Focus());
+        if(!CollectionUtils.isEmpty(list)){
+            collageCache.put(FOCUS_LIST_KEY_NAME, list);
+        }
+        return toAjax(i);
     }
 }

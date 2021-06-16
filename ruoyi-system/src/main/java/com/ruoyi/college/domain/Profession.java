@@ -29,6 +29,8 @@ public class Profession extends BaseEntity
     /** 删除标志 */
     private Integer delFlag;
 
+    private Integer recommand;
+
     /** 专业描述 */
     @Excel(name = "专业描述")
     private String processDescribe;
@@ -130,6 +132,14 @@ public class Profession extends BaseEntity
         return schoolId;
     }
 
+    public Integer getRecommand() {
+        return recommand;
+    }
+
+    public void setRecommand(Integer recommand) {
+        this.recommand = recommand;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -142,6 +152,7 @@ public class Profession extends BaseEntity
             .append("school", getSchool())
                 .append("ranking", getRanking())
             .append("year",getYear())
+            .append("recommand",getRecommand())
             .toString();
     }
 

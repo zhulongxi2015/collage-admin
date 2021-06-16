@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.constant;
 public class Constants {
     public static final String FOCUS_LIST_KEY_NAME = "focus_list_key";
     public static final String SCHOOL_LIST_KEY_NAME = "school_list_key";
+    public static final String SCHOOL_SIMPLE_LIST_KEY_NAME = "school_simple_list_key";
     public static final String SCHOOL_LIST_WITH_PROFESSION_KEY_NAME = "school_list_with_profession_key";
     public static final String SCHOOL_DETAIL_PREFIX_KEY = "school_detail_key_";
 

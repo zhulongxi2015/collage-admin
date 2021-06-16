@@ -32,6 +32,9 @@ public interface SchoolMapper
 //    带专业的学校
     public List<School> selectSchoolListWithProfession(School school);
 
+    public List<School> selectSimpleSchoolList();
+
+
     /**
      * 新增学校表
      * 

@@ -51,6 +51,12 @@ public class SchoolServiceImpl implements ISchoolService
     public List<School> selectSchoolListWithProfession(School school){
         return schoolMapper.selectSchoolListWithProfession(school);
     }
+
+    @Override
+    public List<School> selectSimpleSchoolList() {
+        return schoolMapper.selectSimpleSchoolList();
+    }
+
     /**
      * 新增学校表
      * 

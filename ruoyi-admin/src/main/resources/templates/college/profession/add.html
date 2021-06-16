@@ -37,6 +37,15 @@
                     <a onclick="c('-');">-</a>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否推荐：</label>
+                <div class="col-sm-8">
+                    <label class="toggle-switch switch-solid">
+                        <input type="checkbox" id="recommand" name="recommand" onchange="f(this)" checked value="1">
+                        <span></span>
+                    </label>
+                </div>
+            </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label is-required">专业封面图：</label>
                 <div class="col-sm-8">
@@ -94,6 +103,14 @@
         function d(nowVal1) {
             if (nowVal1.length == 0) {
                 $("#year").val(1);
+            }
+        }
+
+        function f(obj){
+            if($(obj).is(':checked') == true){
+                $(obj).val(1);
+            }else{
+                $(obj).val(0);
             }
         }
         function submitHandler() {

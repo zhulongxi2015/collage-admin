@@ -26,6 +26,7 @@ import java.util.List;
 import static com.ruoyi.web.controller.constant.Constants.SCHOOL_DETAIL_PREFIX_KEY;
 import static com.ruoyi.web.controller.constant.Constants.SCHOOL_LIST_KEY_NAME;
 import static com.ruoyi.web.controller.constant.Constants.SCHOOL_LIST_WITH_PROFESSION_KEY_NAME;
+import static com.ruoyi.web.controller.constant.Constants.SCHOOL_SIMPLE_LIST_KEY_NAME;
 
 /**
  * 学校表Controller
@@ -68,7 +69,19 @@ public class SchoolController extends BaseController {
             return getDataTable(list);
         }
     }
-
+    @PostMapping("/simpleList")
+    @ResponseBody
+    public TableDataInfo simpleSchool(){
+        Object schoolsObj = collageCache.get(SCHOOL_SIMPLE_LIST_KEY_NAME);
+        if (schoolsObj != null && ((List<School>) schoolsObj).size() > 0) {
+            return (getDataTable((List<School>) schoolsObj));
+        } else {
+            startPage();
+            List<School> list = schoolService.selectSimpleSchoolList();
+            collageCache.put(SCHOOL_SIMPLE_LIST_KEY_NAME, list);
+            return getDataTable(list);
+        }
+    }
     //带专业
     @PostMapping("/list1")
     @ResponseBody
