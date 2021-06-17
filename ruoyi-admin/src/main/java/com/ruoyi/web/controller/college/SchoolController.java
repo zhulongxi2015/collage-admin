@@ -133,9 +133,14 @@ public class SchoolController extends BaseController {
             schoolList.add(school);
             collageCache.put(SCHOOL_LIST_KEY_NAME, schoolList);
         }
+        Object simpleSchoolsObj = collageCache.get(SCHOOL_SIMPLE_LIST_KEY_NAME);
+        if(simpleSchoolsObj != null){
+            List<School> schoolList = (List<School>) simpleSchoolsObj;
+            schoolList.add(convertSimpleSchool(school));
+            collageCache.put(SCHOOL_SIMPLE_LIST_KEY_NAME, schoolList);
+        }
         return toAjax(i);
     }
-
     /**
      * 修改学校表
      */
@@ -181,8 +186,16 @@ public class SchoolController extends BaseController {
         if(schoolsObj != null){
             List<School> schoolList = (List<School>)schoolsObj;
             schoolList.removeIf(s->s.getId().equalsIgnoreCase(school.getId()));
-            schoolList.add(school);
+            schoolList.add(updatedSchool);
             collageCache.put(SCHOOL_LIST_KEY_NAME, schoolList);
+        }
+
+        Object simpleObj = collageCache.get(SCHOOL_SIMPLE_LIST_KEY_NAME);
+        if(simpleObj!=null){
+            List<School> schoolList = (List<School>)simpleObj;
+            schoolList.removeIf(s->s.getId().equalsIgnoreCase(school.getId()));
+            schoolList.add(convertSimpleSchool(updatedSchool));
+            collageCache.put(SCHOOL_SIMPLE_LIST_KEY_NAME, schoolList);
         }
         return toAjax(i);
     }
@@ -198,7 +211,7 @@ public class SchoolController extends BaseController {
         int i = schoolService.deleteSchoolByIds(ids);
 
         Object schoolsObj = collageCache.get(SCHOOL_LIST_KEY_NAME);
-
+        Object simpleObj = collageCache.get(SCHOOL_SIMPLE_LIST_KEY_NAME);
         for (String id : Convert.toStrArray(ids)) {
             collageCache.remove(SCHOOL_DETAIL_PREFIX_KEY + id);
 
@@ -207,7 +220,23 @@ public class SchoolController extends BaseController {
                 schoolList.removeIf(s->s.getId().equalsIgnoreCase(id));
                 collageCache.put(SCHOOL_LIST_KEY_NAME, schoolList);
             }
+            if(simpleObj!=null){
+                List<School> schoolList = (List<School>)simpleObj;
+                schoolList.removeIf(s->s.getId().equalsIgnoreCase(id));
+                collageCache.put(SCHOOL_SIMPLE_LIST_KEY_NAME, schoolList);
+            }
         }
         return toAjax(i);
+    }
+
+    private School convertSimpleSchool(School school){
+        School tempSchool = new School();
+        tempSchool.setId(school.getId());
+        tempSchool.setName(school.getName());
+        tempSchool.setShortIntroduction(school.getShortIntroduction());
+        tempSchool.setLego(school.getLego());
+        tempSchool.setLogo2(school.getLogo2());
+        tempSchool.setCoverImg(school.getCoverImg());
+        return tempSchool;
     }
 }
