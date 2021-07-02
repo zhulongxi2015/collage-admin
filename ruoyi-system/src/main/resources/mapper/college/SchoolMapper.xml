@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectSimpleSchoolList"  resultMap="SchoolResult">
         select s.id, s.name,s.short_introduction, s.lego, s.logo2, s.cover_img from school s where
-            s.del_flag = 0
+            s.del_flag = 0 order by s.ranking
     </select>
 
     <insert id="insertSchool" parameterType="School">
